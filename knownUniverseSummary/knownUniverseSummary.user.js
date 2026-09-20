@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         AtmoBurn - Known Universe in Table Format
 // @namespace    https://beta7.atmoburn.com/known_universe.php
-// @version      2026-09-18 v0.1
+// @homepageURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/readme.md
+// @version      0.3
 // @description  try to take over the universe
 // @author       CavalryMaid
 // @match        https://*.atmoburn.com/known_universe.php
@@ -22,9 +23,9 @@
         container.innerHTML = `
         <style>
             #known-universe-table { border-collapse: collapse; box-shadow: 0 0 10px rgba(0,0,0,0.3); table-layout: fixed; }
-            #known-universe-table th, #known-universe-table td { background-color: DarkGray; color: white; border: 1px solid #ccc; padding: 8px; font-size: 12px;  }
+            #known-universe-table th, #known-universe-table td { background-color: DarkGray; color: white; border: 1px solid #ccc; padding: 8px; font-size: 10.5px;  }
             #known-universe-table th { background: #1C1C1C; color: #CCCCCC; }
-            #known-universe-table th.col-resource { width: 40px; }
+            #known-universe-table th.col-resource { width: 35px; }
             #known-universe-table td {background-color: white; color: black;}
             #known-universe-tbody td { background: #3D3D3D; color: #CCCCCC;}            
         </style>
@@ -36,8 +37,7 @@
                   <th>Atmo</th>
                   <th>Weather</th>
                   <th>Grav</th>
-                  <th>Temp</th>
-                  <th>Habitability</th>
+                  <th>Temp</th>                  
                   <th>Terra Diff</th>
                   <th class="col-resource">Iron</th>
                   <th class="col-resource">Bauxite</th>
@@ -51,6 +51,7 @@
                   <th class="col-resource">Lime</th>
                   <th class="col-resource">Carbon</th>
                   <th class="col-resource">Fert</th>
+                  <th>Habitability</th>
                 </tr>
             </thead>
             <tbody id="known-universe-tbody"></tbody>
@@ -74,7 +75,7 @@
     // console.log(searchSpan('Class:')); // For Testing
 
     // Array of search fields
-    const searchTextArray = ['Class:', 'Atmosphere:', 'Weather:', 'Gravity:', 'Temperature:', 'Habitability:', 'Terraforming Difficulty:', 'iron:', 'bauxite:', 'titanium:', 'tungsten:', 'uranium:', 'copper:', 'gold:', 'lithium:', 'quartz:', 'lime:', 'carbon:', 'fertility:'];
+    const searchTextArray = ['Class:', 'Atmosphere:', 'Weather:', 'Gravity:', 'Temperature:', 'Terraforming Difficulty:', 'iron:', 'bauxite:', 'titanium:', 'tungsten:', 'uranium:', 'copper:', 'gold:', 'lithium:', 'quartz:', 'lime:', 'carbon:', 'fertility:', 'Habitability:'];
 
     // Function to build each row of the table - currently only including name
     const addTableRows = () => {
@@ -111,8 +112,8 @@
           // Get number values for percentages
           const numValue = parseFloat(trimmedCellData);
 
-          // Color cells based on conditional formatting thresholds. Skips the "Weather" column (index 2)
-          if (cell != 2) {
+          // Color cells based on conditional formatting thresholds. Skips the Weather, Gravity and Temperature columns
+          if (searchText !== 'Weather:' && searchText !== 'Gravity:' && searchText !== 'Temperature:') {
             if (numValue > greenThreshold){
               newCell.style.color = 'green';
               newCell.style.fontWeight = 'bold';
