@@ -2,3 +2,4 @@ I wanted to summarize the output of AtmoBurn's known universe page, which shows 
 
 To Do:
 1. Disable conditional formatting for grav and temp columns
+2. Move habitability to rightmost column
