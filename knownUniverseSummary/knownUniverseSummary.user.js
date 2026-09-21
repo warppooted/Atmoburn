@@ -2,7 +2,9 @@
 // @name         AtmoBurn - Known Universe in Table Format
 // @namespace    https://beta7.atmoburn.com/known_universe.php
 // @homepageURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/readme.md
-// @version      0.3
+// @updateURL    https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
+// @downloadURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
+// @version      0.3.1
 // @description  try to take over the universe
 // @author       CavalryMaid
 // @match        https://*.atmoburn.com/known_universe.php
@@ -59,7 +61,7 @@
     `;
 
     //Inserting the table into the DOM
-    targetElement.insertAdjacentElement('afterend', container);
+    targetElement.insertAdjacentElement('beforebegin', container);
 
     // Returns an array of just the planets within the search parameters (excludes planets with the "colmenu" class)
     const planetNodes = document.querySelectorAll("a[href*=showPlanet]");
