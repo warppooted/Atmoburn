@@ -4,7 +4,7 @@
 // @homepageURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/readme.md
 // @updateURL    https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
 // @downloadURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
-// @version      0.3.2
+// @version      0.3.3
 // @description  try to take over the universe
 // @author       CavalryMaid
 // @match        https://*.atmoburn.com/known_universe.php
@@ -122,7 +122,16 @@
           const cellData = searchSpan(searchText)[i].textContent;
           const trimmedCellData = cellData.replace(searchText, '').trim();          
           const newCell = currentRow.insertCell();
-          newCell.textContent = trimmedCellData;
+          
+          // Creates a new div for cell formatting and appends it to the newCell
+          const newDiv = document.createElement('div');          
+          newDiv.style.borderRadius = '3px';
+          newDiv.style.padding = '5px 5px';
+          newDiv.textContent = trimmedCellData;
+
+          newCell.appendChild(newDiv);
+
+          // newCell.textContent = trimmedCellData;
           newCell.style.textAlign = 'center';
           
           // Conditional formatting thresholds for cells
@@ -135,15 +144,13 @@
 
           // Color cells based on conditional formatting thresholds. Skips the Weather, Gravity and Temperature columns
           if (searchText !== 'Weather:' && searchText !== 'Gravity:' && searchText !== 'Temperature:') {
-            if (numValue > greenThreshold){
-              // newCell.style.color = 'green';
+            if (numValue > greenThreshold){              
               newCell.style.color = 'white';
-              newCell.style.background = '#008000';
+              newDiv.style.background = '#008000';
               newCell.style.fontWeight = 'bold';
-            } else if (numValue > yellowThreshold){
-              // newCell.style.color = 'yellow';
+            } else if (numValue > yellowThreshold){              
               newCell.style.color = 'black';
-              newCell.style.background = '#eeee42';
+              newDiv.style.background = '#eeee42';
               newCell.style.fontWeight = 'bold';
             } else if (numValue === redThreshold){
               newCell.style.color = 'red';
