@@ -4,7 +4,7 @@
 // @homepageURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/readme.md
 // @updateURL    https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
 // @downloadURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
-// @version      0.3.1
+// @version      0.3.2
 // @description  try to take over the universe
 // @author       CavalryMaid
 // @match        https://*.atmoburn.com/known_universe.php
@@ -66,7 +66,21 @@
     // Returns an array of just the planets within the search parameters (excludes planets with the "colmenu" class)
     const planetNodes = document.querySelectorAll("a[href*=showPlanet]");
     const planetArray = [...planetNodes].filter(node => {return node.className === ""});
-    // console.log(planetArray);  // For Testing
+    
+    // Return an array of colonies on the searched planets (if any)
+    const planetHeaders = document.querySelectorAll("div.dark.padding5");
+    const colonyArray = [];
+    planetHeaders.forEach(parent => {
+      const hasColony = parent.querySelector("a[href*=view_colony]")
+      if (hasColony){
+        const colonyLink = parent.querySelector("a[href*=view_colony]").outerHTML;
+        colonyArray.push('Colony: '+ colonyLink);
+      } else {
+        colonyArray.push('');
+      }
+    });
+
+    // console.log(colonyArray); // For Testing
 
     // Function which builds a list of spans with specified text
     const searchSpan = (text) => {
@@ -74,8 +88,7 @@
       const filteredSpans = [...allSpans].filter(span => span.textContent.includes(text));
       return filteredSpans;
     };
-    // console.log(searchSpan('Class:')); // For Testing
-
+    
     // Array of search fields
     const searchTextArray = ['Class:', 'Atmosphere:', 'Weather:', 'Gravity:', 'Temperature:', 'Terraforming Difficulty:', 'iron:', 'bauxite:', 'titanium:', 'tungsten:', 'uranium:', 'copper:', 'gold:', 'lithium:', 'quartz:', 'lime:', 'carbon:', 'fertility:', 'Habitability:'];
 
@@ -83,13 +96,19 @@
     const addTableRows = () => {
       for (let i=0; i<planetArray.length; i++){
        
-        // Creates a table row and places the planet name into the first cell
+        // Creates a table row and places the planet and colony links into the first cell
         const name = planetArray[i].outerHTML;
+        const colonyLink = colonyArray[i];
+                
         const tableRow = `
-          <tr>
-          <td>${name}</td>
+          <tr>          
+          <td>
+          ${name}<br>
+          <span style="font-size: 12px; font-weight: bold;">${colonyLink}</span>          
+          </td>
           </tr>          
           `
+        
         // Selects the summary table and inserts the row at the end
         const targetTB = document.querySelector('#known-universe-tbody');
         targetTB.insertAdjacentHTML('beforeend', tableRow);
@@ -117,12 +136,17 @@
           // Color cells based on conditional formatting thresholds. Skips the Weather, Gravity and Temperature columns
           if (searchText !== 'Weather:' && searchText !== 'Gravity:' && searchText !== 'Temperature:') {
             if (numValue > greenThreshold){
-              newCell.style.color = 'green';
+              // newCell.style.color = 'green';
+              newCell.style.color = 'white';
+              newCell.style.background = '#008000';
               newCell.style.fontWeight = 'bold';
             } else if (numValue > yellowThreshold){
-            newCell.style.color = 'yellow';
+              // newCell.style.color = 'yellow';
+              newCell.style.color = 'black';
+              newCell.style.background = '#eeee42';
+              newCell.style.fontWeight = 'bold';
             } else if (numValue === redThreshold){
-            newCell.style.color = 'red';
+              newCell.style.color = 'red';
             }
           }
         }
