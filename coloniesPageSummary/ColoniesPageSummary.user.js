@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AtmoBurn - Colonies Page Summary
 // @namespace    CavalryMaid.AtmoBurn.ColoniesPage
-// @version      v0.0.1 initial
+// @version      v0.0.2
 // @description  Big page, many data. Sort sort.
 // @author       CavalryMaid
 // @match        https://*.atmoburn.com/overview.php?view=1
@@ -32,11 +32,12 @@
     targetElement.insertAdjacentElement('afterend', summaryTable);
 
     // Populate header tables
-    const targetHeaders = document.querySelector('#colonies-overview-table-header');
+    const targetHeader = document.querySelector('#colonies-overview-table-header');
+    const targetHeaderRow = targetHeader.rows[0];
 
     for (let i=0; i<tableHeaders.length; i++){
         const headerText = tableHeaders[i];
-        const newHeader = targetHeaders.insertCell();
+        const newHeader = targetHeaderRow.insertCell();
         newHeader.textContent = headerText;
     };
 
