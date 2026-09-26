@@ -4,7 +4,7 @@
 // @homepageURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/readme.md
 // @updateURL    https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
 // @downloadURL  https://github.com/warppooted/Atmoburn/blob/main/knownUniverseSummary/knownUniverseSummary.user.js
-// @version      0.3.3
+// @version      0.3.4
 // @description  try to take over the universe
 // @author       CavalryMaid
 // @match        https://*.atmoburn.com/known_universe.php
@@ -64,7 +64,7 @@
     targetElement.insertAdjacentElement('beforebegin', container);
 
     // Returns an array of just the planets within the search parameters (excludes planets with the "colmenu" class)
-    const planetNodes = document.querySelectorAll("a[href*=showPlanet]");
+    const planetNodes = document.querySelectorAll("div[id='midcolumn'] a[href*=showPlanet]");
     const planetArray = [...planetNodes].filter(node => {return node.className === ""});
     
     // Return an array of colonies on the searched planets (if any)
